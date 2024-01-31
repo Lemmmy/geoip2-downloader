@@ -47,5 +47,8 @@
     "release-it": "^17.0.3",
     "rimraf": "^5.0.5",
     "typescript": "^5.3.3"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
