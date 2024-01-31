@@ -1,0 +1,51 @@
+{
+  "name": "@lemmmy/geoip2-downloader",
+  "version": "1.0.0",
+  "description": "Download the latest MaxMind GeoIP2 database",
+  "author": "Lemmmy",
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "homepage": "https://github.com/Lemmmy/geoip2-downloader",
+  "repository": "git+https://github.com/Lemmmy/geoip2-downloader.git",
+  "keywords": [
+    "geoip2",
+    "maxmind",
+    "download"
+  ],
+  "files": [
+    "dist",
+    "index.js",
+    "index.d.ts"
+  ],
+  "exports": "./dist/index.js",
+  "scripts": {
+    "fix": "rimraf node_modules && rm package-lock.json && npm install",
+    "build": "rimraf dist && tsc -p tsconfig.json",
+    "format": "prettier --write \"**/*.ts\"",
+    "lint": "eslint 'lib/**/*.ts' --fix",
+    "prepublish:npm": "yarn build",
+    "publish:npm": "yarn publish --access public",
+    "prepublish:next": "yarn run build",
+    "publish:next": "yarn publish --access public --tag next",
+    "prerelease": "yarn build",
+    "release": "release-it"
+  },
+  "dependencies": {
+    "maxmind": "^4.3.18",
+    "mkdirp": "^3.0.1",
+    "tar": "^6.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.14",
+    "@types/tar": "^6.1.11",
+    "@typescript-eslint/eslint-plugin": "^6.20.0",
+    "@typescript-eslint/parser": "^6.20.0",
+    "eslint": "^8.56.0",
+    "release-it": "^17.0.3",
+    "rimraf": "^5.0.5",
+    "typescript": "^5.3.3"
+  }
+}
