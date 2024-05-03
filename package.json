@@ -1,6 +1,6 @@
 {
   "name": "@lemmmy/geoip2-downloader",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Download the latest MaxMind GeoIP2 database",
   "author": "Lemmmy",
   "license": "MIT",
