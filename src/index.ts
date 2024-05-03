@@ -1,9 +1,9 @@
-import fs from "fs";
-import path from "path";
-import https from "https";
-import zlib from "zlib";
-import tar from "tar";
-import { mkdirp } from "mkdirp";
+import fs from 'fs';
+import path from 'path';
+import zlib from 'zlib';
+import tar from 'tar';
+import { mkdirp } from 'mkdirp';
+import { Readable } from 'node:stream';
 
 export const EDITIONS = {
   city   : "GeoLite2-City",
@@ -44,12 +44,18 @@ export async function downloadGeoip2({
     date       : date || ""
   }).toString();
 
-  return new Promise((resolve, reject) => {
+  return new Promise(async (resolve, reject) => {
     // Fetch the database tar.gz from the URL
-    https.get(url, res => res
+    const res = await fetch(url);
+    if (!res.ok || !res.body) {
+      reject(new Error(`HTTP error: ${res.statusText}`));
+      return;
+    }
+
+    Readable.fromWeb(res.body as any)
       // Un-gzip the response
       .pipe(zlib.createGunzip()
-        .on("error", () => reject(new Error("Link not found. Invalid licenseKey?"))))
+        .on("error", e => reject(new Error("Link not found. Invalid licenseKey?", { cause: e }))))
       // Get the tar entries
       .pipe(tar.t())
       .on("entry", entry => {
@@ -60,6 +66,6 @@ export async function downloadGeoip2({
             .on("finish", () => resolve(dest))
             .on("error", reject);
         }
-      }));
+      });
   });
 }
